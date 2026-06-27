@@ -27,9 +27,7 @@ client.once('ready', async () => {
     try {
         await rest.put(Routes.applicationCommands(client.user.id), { body: commands });
         console.log('Komendy zostały pomyślnie zarejestrowane!');
-    } catch (e) { 
-        console.error(e); 
-    }
+    } catch (e) { console.error(e); }
     console.log(`Bot działa jako ${client.user.tag}!`);
 });
 
@@ -44,13 +42,22 @@ client.on('interactionCreate', async interaction => {
         const amount = interaction.options.getInteger('ilosc');
         const reason = interaction.options.getString('powod');
         const channel = interaction.guild.channels.cache.get(config.logChannelId);
+        
+        const akcja = commandName === 'plus' ? 'Plus' : commandName === 'minus' ? 'Minus' : 'Nagana';
 
         const embed = new EmbedBuilder()
-            .setTitle(commandName === 'plus' ? '➕ Dodano plusa' : commandName === 'minus' ? '➖ Dodano minusa' : '⚠️ Nagana')
+            .setTitle(`Log: ${akcja}`)
             .setColor(commandName === 'plus' ? 0x00FF00 : 0xFF0000)
-            .addFields({ name: 'Pracownik', value: `${target}`, inline: true }, { name: 'Powód', value: reason });
+            .addFields(
+                { name: 'Co', value: akcja, inline: false },
+                { name: 'Komu', value: `${target}`, inline: false },
+                { name: 'Powód', value: reason, inline: false },
+                { name: 'Podpis', value: `${interaction.user}`, inline: false }
+            );
         
-        if (commandName !== 'nagana') embed.addFields({ name: 'Ilość', value: `${amount}`, inline: true });
+        if (commandName !== 'nagana') {
+            embed.addFields({ name: 'Ilość', value: `${amount}`, inline: true });
+        }
         
         await channel.send({ embeds: [embed] });
         await interaction.reply({ content: 'Wysłano log.', ephemeral: true });
