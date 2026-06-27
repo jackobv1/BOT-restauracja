@@ -43,21 +43,19 @@ client.on('interactionCreate', async interaction => {
         const reason = interaction.options.getString('powod');
         const channel = interaction.guild.channels.cache.get(config.logChannelId);
         
-        const akcja = commandName === 'plus' ? 'Plus' : commandName === 'minus' ? 'Minus' : 'Nagana';
-
         const embed = new EmbedBuilder()
             .setTitle(commandName === 'plus' ? '➕ Dodano plusa' : commandName === 'minus' ? '➖ Dodano minusa' : '⚠️ Nagana')
             .setColor(commandName === 'plus' ? 0x00FF00 : 0xFF0000)
             .addFields(
                 { name: 'Pracownik', value: `${target}`, inline: false },
-                { name: 'Powód', value: reason, inline: false },
-                { name: 'Ilość', value: commandName === 'nagana' ? 'N/A' : `${amount}`, inline: false },
-                { name: 'Podpis', value: `${interaction.user}`, inline: false }
+                { name: 'Powód', value: reason, inline: false }
             );
-        
+
         if (commandName !== 'nagana') {
-            embed.addFields({ name: 'Ilość', value: `${amount}`, inline: true });
+            embed.addFields({ name: 'Ilość', value: `${amount}`, inline: false });
         }
+
+        embed.addFields({ name: 'Podpis', value: `${interaction.user}`, inline: false });
         
         await channel.send({ embeds: [embed] });
         await interaction.reply({ content: 'Wysłano log.', ephemeral: true });
