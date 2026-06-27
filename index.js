@@ -50,9 +50,10 @@ client.on('interactionCreate', async interaction => {
             .setColor(commandName === 'plus' ? 0x00FF00 : 0xFF0000)
             .addFields(
                 { name: 'Co', value: akcja, inline: true },
-                { name: 'Komu', value: `${target}`, inline: true },
-                { name: 'Podpis', value: `${interaction.user}`, inline: true },
-                { name: 'Powód', value: reason, inline: false } // Powód na nowej linii, bo jest dłuższy
+                { name: 'Ilość', value: commandName === 'nagana' ? '-' : `${amount}`, inline: true },
+                { name: 'Komu', value: `${target}`, inline: false }, // false zaczyna nowy wiersz
+                { name: 'Powód', value: reason, inline: false },
+                { name: 'Podpis', value: `${interaction.user}`, inline: true }
             );
         
         if (commandName !== 'nagana') {
