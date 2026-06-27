@@ -46,14 +46,13 @@ client.on('interactionCreate', async interaction => {
         const akcja = commandName === 'plus' ? 'Plus' : commandName === 'minus' ? 'Minus' : 'Nagana';
 
         const embed = new EmbedBuilder()
-            .setTitle(`Log: ${akcja}`)
+            .setTitle(commandName === 'plus' ? '➕ Dodano plusa' : commandName === 'minus' ? '➖ Dodano minusa' : '⚠️ Nagana')
             .setColor(commandName === 'plus' ? 0x00FF00 : 0xFF0000)
             .addFields(
-                { name: 'Co', value: akcja, inline: true },
-                { name: 'Ilość', value: commandName === 'nagana' ? '-' : `${amount}`, inline: true },
-                { name: 'Komu', value: `${target}`, inline: false }, // false zaczyna nowy wiersz
+                { name: 'Pracownik', value: `${target}`, inline: false },
                 { name: 'Powód', value: reason, inline: false },
-                { name: 'Podpis', value: `${interaction.user}`, inline: true }
+                { name: 'Ilość', value: commandName === 'nagana' ? 'N/A' : `${amount}`, inline: false },
+                { name: 'Podpis', value: `${interaction.user}`, inline: false }
             );
         
         if (commandName !== 'nagana') {
