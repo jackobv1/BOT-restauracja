@@ -44,7 +44,7 @@ client.on('interactionCreate', async interaction => {
         const channel = interaction.guild.channels.cache.get(config.logChannelId);
         
         const embed = new EmbedBuilder()
-            .setTitle(commandName === 'plus' ? '➕ Dodano plusa' : commandName === 'minus' ? '➖ Dodano minusa' : '⚠️ Nagana')
+            .setTitle(commandName === 'plus' ? '➕ Dodano Plusa' : commandName === 'minus' ? '➖ Dodano Minusa' : '⚠️ Nagana')
             .setColor(commandName === 'plus' ? 0x00FF00 : 0xFF0000)
             .addFields(
                 { name: 'Pracownik', value: `${target}`, inline: false },
