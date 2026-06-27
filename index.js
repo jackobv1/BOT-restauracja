@@ -33,9 +33,20 @@ client.once('ready', async () => {
 
 client.on('interactionCreate', async interaction => {
     if (!interaction.isChatInputCommand()) return;
-    if (!interaction.member.roles.cache.has(config.managerRoleId)) return interaction.reply({ content: 'Brak uprawnień!', ephemeral: true });
 
     const { commandName } = interaction;
+    const isManager = interaction.member.roles.cache.has(config.managerRoleId);
+    const isUrlopAdmin = interaction.member.roles.cache.has(config.urlopRoleId);
+
+    // 1. Uprawnienia dla Plus/Minus/Nagana (TYLKO MANAGER)
+    if (['plus', 'minus', 'nagana'].includes(commandName)) {
+        if (!isManager) return interaction.reply({ content: 'Brak uprawnień (wymagany Manager)!', ephemeral: true });
+    }
+
+    // 2. Uprawnienia dla Urlop/Koniecurlop (MANAGER LUB ROLA URLOPOWA)
+    if (['urlop', 'koniecurlop'].includes(commandName)) {
+        if (!isManager && !isUrlopAdmin) return interaction.reply({ content: 'Brak uprawnień!', ephemeral: true });
+    }
 
     if (['plus', 'minus', 'nagana'].includes(commandName)) {
         const target = interaction.options.getUser('uzytkownik');
@@ -44,7 +55,7 @@ client.on('interactionCreate', async interaction => {
         const channel = interaction.guild.channels.cache.get(config.logChannelId);
         
         const embed = new EmbedBuilder()
-            .setTitle(commandName === 'plus' ? '➕ Dodano Plusa' : commandName === 'minus' ? '➖ Dodano Minusa' : '⚠️ Nagana')
+            .setTitle(commandName === 'plus' ? '➕ Dodano plusa' : commandName === 'minus' ? '➖ Dodano minusa' : '⚠️ Nagana')
             .setColor(commandName === 'plus' ? 0x00FF00 : 0xFF0000)
             .addFields(
                 { name: 'Pracownik', value: `${target}`, inline: false },
