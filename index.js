@@ -49,10 +49,10 @@ client.on('interactionCreate', async interaction => {
             .setTitle(`Log: ${akcja}`)
             .setColor(commandName === 'plus' ? 0x00FF00 : 0xFF0000)
             .addFields(
-                { name: 'Co', value: akcja, inline: false },
-                { name: 'Komu', value: `${target}`, inline: false },
-                { name: 'Powód', value: reason, inline: false },
-                { name: 'Podpis', value: `${interaction.user}`, inline: false }
+                { name: 'Co', value: akcja, inline: true },
+                { name: 'Komu', value: `${target}`, inline: true },
+                { name: 'Podpis', value: `${interaction.user}`, inline: true },
+                { name: 'Powód', value: reason, inline: false } // Powód na nowej linii, bo jest dłuższy
             );
         
         if (commandName !== 'nagana') {
