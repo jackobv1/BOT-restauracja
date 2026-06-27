@@ -1,0 +1,7 @@
+{
+  "token": "TWÓJ_TOKEN_BOTA",
+  "managerRoleId": "ID_ROLI_MANAGER",
+  "logChannelId": "ID_KANAŁU_DLA_PLUS_MINUS_NAGAN",
+  "hrChannelId": "ID_KANAŁU_DLA_URLOPÓW",
+  "roleUrlopID": "ID_ROLI_URLOP"
+}
