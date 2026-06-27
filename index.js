@@ -27,7 +27,9 @@ client.once('ready', async () => {
     try {
         await rest.put(Routes.applicationCommands(client.user.id), { body: commands });
         console.log('Komendy zostały pomyślnie zarejestrowane!');
-    } catch (e) { console.error(e); }
+    } catch (e) { 
+        console.error(e); 
+    }
     console.log(`Bot działa jako ${client.user.tag}!`);
 });
 
