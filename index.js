@@ -1,17 +1,35 @@
-const http = require('http');
-http.createServer((req, res) => {
-  res.write('Bot jest aktywny!');
-  res.end();
-}).listen(process.env.PORT || 3000);
-const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
+const { Client, GatewayIntentBits, EmbedBuilder, REST, Routes } = require('discord.js');
 const fs = require('fs');
+const http = require('http');
+
+// Serwer HTTP dla Render.com
+http.createServer((req, res) => {
+    res.write('Bot jest aktywny!');
+    res.end();
+}).listen(process.env.PORT || 3000);
+
 const config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
 
 const client = new Client({ 
     intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers] 
 });
 
-client.once('ready', () => { console.log(`Bot działa jako ${client.user.tag}!`); });
+const commands = [
+    { name: 'plus', description: 'Dodaje plusa', options: [{ name: 'uzytkownik', type: 6, description: 'Użytkownik', required: true }, { name: 'ilosc', type: 4, description: 'Ilość', required: true }, { name: 'powod', type: 3, description: 'Powód', required: true }] },
+    { name: 'minus', description: 'Dodaje minusa', options: [{ name: 'uzytkownik', type: 6, description: 'Użytkownik', required: true }, { name: 'ilosc', type: 4, description: 'Ilość', required: true }, { name: 'powod', type: 3, description: 'Powód', required: true }] },
+    { name: 'nagana', description: 'Daje naganę', options: [{ name: 'uzytkownik', type: 6, description: 'Użytkownik', required: true }, { name: 'powod', type: 3, description: 'Powód', required: true }] },
+    { name: 'urlop', description: 'Nadaje urlop', options: [{ name: 'uzytkownik', type: 6, description: 'Użytkownik', required: true }, { name: 'data', type: 3, description: 'Do kiedy', required: true }, { name: 'powod', type: 3, description: 'Powód', required: true }] },
+    { name: 'koniecurlop', description: 'Kończy urlop', options: [{ name: 'uzytkownik', type: 6, description: 'Użytkownik', required: true }] }
+];
+
+client.once('ready', async () => {
+    const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
+    try {
+        await rest.put(Routes.applicationCommands(client.user.id), { body: commands });
+        console.log('Komendy zostały pomyślnie zarejestrowane!');
+    } catch (e) { console.error(e); }
+    console.log(`Bot działa jako ${client.user.tag}!`);
+});
 
 client.on('interactionCreate', async interaction => {
     if (!interaction.isChatInputCommand()) return;
@@ -47,6 +65,10 @@ client.on('interactionCreate', async interaction => {
         const target = interaction.options.getMember('uzytkownik');
         await target.roles.remove(config.roleUrlopID);
         await interaction.reply({ content: 'Zakończono urlop.', ephemeral: true });
+    }
+});
+
+client.login(process.env.TOKEN);
     }
 });
 
