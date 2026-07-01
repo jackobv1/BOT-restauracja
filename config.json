@@ -1,10 +1,20 @@
 {
   "managerRoleId": "1359964047319240795",
   "urlopRoleId": "1277689889457967192",
-  "roleUrlopID": "1277689889457967187",
   "logChannelId": "1495412879111753759",
   "hrChannelId": "1485373889092653249",
+  "roleUrlopID": "1277689889457967187",
   "googleScriptUrl": "https://script.google.com/macros/s/AKfycbyENYoJLxA9Z9ALKisUtO--xFvlvyUuo-2gW8Rc8lZHWBtO8Dzxg1eeEnGBLsCNGc2N/exec",
-  "rolePracownikID": "1277689889457967192",
-  "roleDrugiID": "1277689889457967193"
+  "burgerShotRoleId": "WPISZ_ID_ROLI_BURGER_SHOT",
+  "pracownikRoles": [
+    "ID_WSPOLWLASCICIEL",
+    "ID_MENADZER",
+    "ID_KIEROWNIK",
+    "ID_LIDER_ZMIANY",
+    "ID_STARSZY_PRACOWNIK",
+    "ID_GRILL_MASTER",
+    "ID_FRYTKOWY",
+    "ID_POMOCNIK_KUCHENNY",
+    "ID_STAZYSTA"
+  ]
 }
